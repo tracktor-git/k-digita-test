@@ -37,12 +37,17 @@ import DocumentsApi from '../documents/Documents.Api'
 import AuthApi from '../auth/auth.api'
 import Card from '../../components/Card'
 
-import { getImagePlaceholderFromMime, phoneNumber } from '../../utils'
+import {
+  getImagePlaceholderFromMime,
+  phoneNumber,
+  printOrDownloadDoc,
+} from '../../utils'
 import setTime, { setTimeV2 } from '../../helper/timeFormat'
 import api from '../../api'
 import { monthToWord } from '../../helper/timeFormat'
 import ProtocolApi, { DocEnum } from '../protocol-reports/ProtocolReports.Api'
 import { OrderStatus } from '../../typings'
+import OrderControls from './OrderControls'
 
 const OrderDetail = (): JSX.Element => {
   const params = useParams()
@@ -112,6 +117,8 @@ const OrderDetail = (): JSX.Element => {
   const firstSectionRef = useRef<any>()
   const commentRef = useRef<any>()
   const documentRef = useRef<any>()
+
+  const cardBody = useRef<any>()
 
   const getDateV1 = (date: any, time?: boolean) => {
     const dateObj = new Date(date)
@@ -418,6 +425,7 @@ const OrderDetail = (): JSX.Element => {
               </div>
             </CCardHeader>
             <CCardBody
+              ref={cardBody}
               style={{
                 padding: '6rem 4rem',
               }}
@@ -1123,6 +1131,9 @@ const OrderDetail = (): JSX.Element => {
                 </CForm>
               </CCol>
             </CCardBody>
+            {/* TracktorCode STARTS Here */}
+            <OrderControls isDisabled={false} printElement={cardBody} />
+            {/* TracktorCode ENDS Here */}
           </CCard>
           {/* THIRD CARD */}
           {actDetail.id || !isView ? (
@@ -1712,7 +1723,7 @@ const OrderDetail = (): JSX.Element => {
                       )}
                     </div>
                     <div
-                      id="sign-section-act"
+                      className="sign-section"
                       style={{
                         display: 'none',
                       }}
@@ -1746,6 +1757,9 @@ const OrderDetail = (): JSX.Element => {
                     </div>
                   </CForm>
                 </CCol>
+                {/* TracktorCode STARTS Here */}
+                <OrderControls isDisabled={false} printElement={documentRef} />
+                {/* TracktorCode ENDS Here */}
               </CCardBody>
             </CCard>
           ) : (
@@ -1874,7 +1888,7 @@ const OrderDetail = (): JSX.Element => {
                   )}
                   <div>
                     {data?.comments?.length ? (
-                      <div>
+                      <div style={{ border: '1px solidred' }}>
                         {data?.comments?.map((e: any, i: number) => {
                           const { user, createdAt } = e
                           const { surname, name, lastName } =
@@ -1973,6 +1987,12 @@ const OrderDetail = (): JSX.Element => {
                             sendButtonStyle(e?.target?.value)
                           }}
                         />
+                        {/* TRACKTOR'S CODE STARTS HERE */}
+                        <OrderControls
+                          isDisabled={!Boolean(data.comments.length)}
+                          printElement={commentRef}
+                        />
+                        {/* TRACKTOR'S CODE ENDS HERE */}
                         <div
                           style={{
                             display: 'flex',
@@ -2241,6 +2261,8 @@ const OrderDetail = (): JSX.Element => {
                             width: '60%',
                           }}
                           value={data?.responsibleUserId}
+                          // eslint-disable-next-line
+                          onChange={() => {}} // ADD ONCHANGE TO SUPPRESS CONSOLE ERROR
                         >
                           {data.status == OrderStatus.NEW ? (
                             <option value="default">

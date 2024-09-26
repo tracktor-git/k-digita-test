@@ -23,6 +23,7 @@ import { cilArrowCircleLeft } from '@coreui/icons'
 import { useTypedSelector } from '../../store'
 import { Viewer, Worker, RenderPageProps } from '@react-pdf-viewer/core'
 import { printOrDownloadDoc } from '../../utils'
+import OrderControls from '../order/OrderControls'
 
 const CustomPageLayer: React.FC<{
   renderPageProps: RenderPageProps
@@ -73,6 +74,8 @@ const Document = (): JSX.Element => {
     getDocumentsShow(id)
   }, [id])
 
+  const docRef = React.useRef(null)
+
   return (
     <CContainer>
       <CCard>
@@ -103,6 +106,7 @@ const Document = (): JSX.Element => {
                 {showPicture?.file?.url.includes('.pdf') ? (
                   <div
                     className="pdf-viewer"
+                    ref={docRef}
                     style={{
                       border: '1px solid rgba(0, 0, 0, 0.3)',
                       // height: '490px',
@@ -128,6 +132,12 @@ const Document = (): JSX.Element => {
                     />
                   </div>
                 )}
+                {/* TRACKTOR'S CODE STARTS HERE */}
+                <OrderControls
+                  isDisabled={false}
+                  printElement={showPicture?.file?.url}
+                />
+                {/* TRACKTOR'S CODE ENDS HERE */}
               </>
             ) : (
               <></>
