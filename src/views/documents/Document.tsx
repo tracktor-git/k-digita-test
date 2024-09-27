@@ -58,6 +58,7 @@ const Document = (): JSX.Element => {
   const [downloadDocumentMimeType, setDownloadDocumentMimeType] = useState('')
   const [titleName, setTitleName] = useState('')
   const [dataFormat, setDataFormat] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
 
   const { id } = useParams()
   const [searchParams] = useSearchParams()
@@ -118,6 +119,7 @@ const Document = (): JSX.Element => {
                         fileUrl={showPicture?.file?.url}
                         renderPage={renderPdfPage}
                         withCredentials={true}
+                        onDocumentLoad={() => setIsLoading(false)}
                       />
                     </Worker>
                   </div>
@@ -134,7 +136,7 @@ const Document = (): JSX.Element => {
                 )}
                 {/* TRACKTOR'S CODE STARTS HERE */}
                 <OrderControls
-                  isDisabled={false}
+                  isDisabled={isLoading}
                   printElement={showPicture?.file?.url}
                 />
                 {/* TRACKTOR'S CODE ENDS HERE */}
