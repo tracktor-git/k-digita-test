@@ -16,7 +16,7 @@ const controlsStyles: React.CSSProperties = {
   justifyContent: 'flex-end',
 }
 
-const html2pdfOpeions = {
+const html2pdfOptions = {
   margin: 3,
   marginLeft: 10,
   filename: 'document.pdf',
@@ -46,7 +46,7 @@ const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
     const signSec = printContainer.querySelector('.sign-section') as HTMLElement
     if (signSec) signSec.style.display = 'block'
 
-    await html2pdf().set(html2pdfOpeions).from(printContainer).save()
+    await html2pdf().set(html2pdfOptions).from(printContainer).save()
     printContainer.remove()
     signSec?.remove()
   }
@@ -70,7 +70,7 @@ const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
     if (signSec) signSec.style.display = 'block'
 
     html2pdf()
-      .set(html2pdfOpeions)
+      .set(html2pdfOptions)
       .from(printContainer)
       .outputPdf()
       .then((pdf: string) => {
