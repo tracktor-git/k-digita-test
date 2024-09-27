@@ -29,9 +29,7 @@ const html2pdfOpeions = {
   jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
 }
 
-const OrderControls = (props: IOrderControlsProps) => {
-  const { isDisabled, printElement } = props
-
+const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
   const handleDownload = async () => {
     if (typeof printElement === 'string') {
       if (printElement.startsWith('http')) {
@@ -56,12 +54,11 @@ const OrderControls = (props: IOrderControlsProps) => {
   const handlePrint = () => {
     if (typeof printElement === 'string') {
       if (printElement.startsWith('http')) {
-        const canvas = document.querySelector('canvas')
-        const imgData = canvas?.toDataURL()
-        const printWindow = window.open('')
-        printWindow?.document.write(
-          `<img src="${imgData}" onload="window.print(); window.close();" />`,
-        )
+        printJS({
+          printable: printElement,
+          type: 'pdf',
+          showModal: true,
+        })
       }
       return
     }
