@@ -1,4 +1,6 @@
 import { CButton } from '@coreui/react-pro'
+import CIcon from '@coreui/icons-react'
+import { cilPrint, cilCloudDownload } from '@coreui/icons'
 import html2pdf from 'html2pdf.js'
 import printJS from 'print-js'
 
@@ -85,10 +87,12 @@ const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
   return (
     <div className="controls" style={controlsStyles}>
       <CButton color="primary" disabled={isDisabled} onClick={handlePrint}>
+        <CIcon icon={cilPrint} style={{ marginRight: 5 }} />
         Печать
       </CButton>
 
       <CButton color="primary" disabled={isDisabled} onClick={handleDownload}>
+        <CIcon icon={cilCloudDownload} style={{ marginRight: 5 }} />
         Скачать
       </CButton>
     </div>

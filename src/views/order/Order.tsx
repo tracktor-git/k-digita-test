@@ -1129,11 +1129,11 @@ const OrderDetail = (): JSX.Element => {
                     </div>
                   </div>
                 </CForm>
+                {/* TRACKTOR'S CODE STARTS HERE */}
+                <OrderControls isDisabled={false} printElement={cardBody} />
+                {/* TRACKTOR'S CODE ENDS ENDS */}
               </CCol>
             </CCardBody>
-            {/* TracktorCode STARTS Here */}
-            <OrderControls isDisabled={false} printElement={cardBody} />
-            {/* TracktorCode ENDS Here */}
           </CCard>
           {/* THIRD CARD */}
           {actDetail.id || !isView ? (
@@ -1756,10 +1756,13 @@ const OrderDetail = (): JSX.Element => {
                       </div>
                     </div>
                   </CForm>
+                  {/* TRACKTOR'S CODE STARTS HERE */}
+                  <OrderControls
+                    isDisabled={false}
+                    printElement={documentRef}
+                  />
+                  {/* TRACKTOR'S CODE ENDS HERE */}
                 </CCol>
-                {/* TracktorCode STARTS Here */}
-                <OrderControls isDisabled={false} printElement={documentRef} />
-                {/* TracktorCode ENDS Here */}
               </CCardBody>
             </CCard>
           ) : (
