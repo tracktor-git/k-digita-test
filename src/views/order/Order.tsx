@@ -47,7 +47,7 @@ import api from '../../api'
 import { monthToWord } from '../../helper/timeFormat'
 import ProtocolApi, { DocEnum } from '../protocol-reports/ProtocolReports.Api'
 import { OrderStatus } from '../../typings'
-import OrderControls from './OrderControls'
+import PrintDownloadControls from '../../components/PrintDownloadControls'
 
 const OrderDetail = (): JSX.Element => {
   const params = useParams()
@@ -1130,7 +1130,10 @@ const OrderDetail = (): JSX.Element => {
                   </div>
                 </CForm>
                 {/* TRACKTOR'S CODE STARTS HERE */}
-                <OrderControls isDisabled={false} printElement={cardBody} />
+                <PrintDownloadControls
+                  isDisabled={false}
+                  printElement={cardBody}
+                />
                 {/* TRACKTOR'S CODE ENDS ENDS */}
               </CCol>
             </CCardBody>
@@ -1757,7 +1760,7 @@ const OrderDetail = (): JSX.Element => {
                     </div>
                   </CForm>
                   {/* TRACKTOR'S CODE STARTS HERE */}
-                  <OrderControls
+                  <PrintDownloadControls
                     isDisabled={false}
                     printElement={documentRef}
                   />
@@ -1991,7 +1994,7 @@ const OrderDetail = (): JSX.Element => {
                           }}
                         />
                         {/* TRACKTOR'S CODE STARTS HERE */}
-                        <OrderControls
+                        <PrintDownloadControls
                           isDisabled={!Boolean(data.comments.length)}
                           printElement={commentRef}
                         />

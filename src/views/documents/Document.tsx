@@ -23,7 +23,8 @@ import { cilArrowCircleLeft } from '@coreui/icons'
 import { useTypedSelector } from '../../store'
 import { Viewer, Worker, RenderPageProps } from '@react-pdf-viewer/core'
 import { printOrDownloadDoc } from '../../utils'
-import OrderControls from '../order/OrderControls'
+
+import PrintDownloadControls from '../../components/PrintDownloadControls'
 
 const CustomPageLayer: React.FC<{
   renderPageProps: RenderPageProps
@@ -135,7 +136,7 @@ const Document = (): JSX.Element => {
                   </div>
                 )}
                 {/* TRACKTOR'S CODE STARTS HERE */}
-                <OrderControls
+                <PrintDownloadControls
                   isDisabled={isLoading}
                   printElement={showPicture?.file?.url}
                 />

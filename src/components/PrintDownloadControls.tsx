@@ -48,7 +48,9 @@ const preparePrintContainer = (
   return printContainer
 }
 
-const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
+const PrintDownloadControls = (props: IOrderControlsProps) => {
+  const { isDisabled, printElement } = props
+
   const handleDownload = async () => {
     if (typeof printElement === 'string') {
       if (printElement.startsWith('http')) {
@@ -117,4 +119,4 @@ const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
   )
 }
 
-export default OrderControls
+export default PrintDownloadControls
