@@ -50,7 +50,7 @@ const preparePrintContainer = (
 
 const PrintDownloadControls = (props: IOrderControlsProps) => {
   const { isDisabled, printElement } = props
-  const [isLoading, setIsLoading] = useState(isDisabled)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleDownload = async () => {
     setIsLoading(true)
