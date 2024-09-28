@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { CButton } from '@coreui/react-pro'
 import CIcon from '@coreui/icons-react'
 import { cilPrint, cilCloudDownload } from '@coreui/icons'
@@ -49,8 +50,11 @@ const preparePrintContainer = (
 
 const PrintDownloadControls = (props: IOrderControlsProps) => {
   const { isDisabled, printElement } = props
+  const [isLoading, setIsLoading] = useState(isDisabled)
 
   const handleDownload = async () => {
+    setIsLoading(true)
+
     if (typeof printElement === 'string') {
       if (printElement.startsWith('http')) {
         const link = document.createElement('a')
@@ -58,6 +62,7 @@ const PrintDownloadControls = (props: IOrderControlsProps) => {
         link.click()
         link.remove()
       }
+      setIsLoading(false)
       return
     }
 
@@ -65,6 +70,8 @@ const PrintDownloadControls = (props: IOrderControlsProps) => {
 
     await html2pdf().set(html2pdfOptions).from(printContainer).save()
     printContainer.remove()
+
+    setIsLoading(false)
   }
 
   const handleReactToPrint = useReactToPrint({
@@ -74,6 +81,8 @@ const PrintDownloadControls = (props: IOrderControlsProps) => {
   })
 
   const handlePrint = () => {
+    setIsLoading(true)
+
     if (typeof printElement === 'string') {
       if (printElement.startsWith('http')) {
         printJS({
@@ -82,6 +91,7 @@ const PrintDownloadControls = (props: IOrderControlsProps) => {
           showModal: true,
         })
       }
+      setIsLoading(false)
       return
     }
 
@@ -89,16 +99,26 @@ const PrintDownloadControls = (props: IOrderControlsProps) => {
 
     handleReactToPrint(null, () => printContainer)
     printContainer.remove()
+
+    setIsLoading(false)
   }
 
   return (
     <div className="controls" style={controlsStyles}>
-      <CButton color="primary" disabled={isDisabled} onClick={handlePrint}>
+      <CButton
+        color="primary"
+        disabled={isDisabled || isLoading}
+        onClick={handlePrint}
+      >
         <CIcon icon={cilPrint} style={{ marginRight: 5 }} />
         Печать
       </CButton>
 
-      <CButton color="primary" disabled={isDisabled} onClick={handleDownload}>
+      <CButton
+        color="primary"
+        disabled={isDisabled || isLoading}
+        onClick={handleDownload}
+      >
         <CIcon icon={cilCloudDownload} style={{ marginRight: 5 }} />
         Скачать
       </CButton>
