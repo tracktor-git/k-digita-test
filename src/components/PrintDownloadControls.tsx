@@ -35,7 +35,6 @@ const preparePrintContainer = (
 ) => {
   const printContainer = document.createElement('div')
   printContainer.innerHTML = element.current.innerHTML
-  printContainer.style.padding = '30px 20px'
   const signSec = printContainer.querySelector('.sign-section') as HTMLElement
   if (signSec) signSec.style.display = 'block'
 
@@ -68,8 +67,9 @@ const PrintDownloadControls = (props: IOrderControlsProps) => {
   }
 
   const handleReactToPrint = useReactToPrint({
-    documentTitle: 'Print',
+    documentTitle: ' ',
     removeAfterPrint: true,
+    pageStyle: `@page { size: A4; }`,
   })
 
   const handlePrint = () => {
@@ -86,21 +86,8 @@ const PrintDownloadControls = (props: IOrderControlsProps) => {
 
     const printContainer = preparePrintContainer(printElement)
 
-    // For Mozilla Firefox this works better
-    if (navigator.userAgent.includes('Firefox')) {
-      return handleReactToPrint(null, () => printContainer)
-    }
-
-    html2pdf()
-      .set(html2pdfOptions)
-      .from(printContainer)
-      .outputPdf()
-      .then((pdf: string) => {
-        printJS({ printable: btoa(pdf), type: 'pdf', base64: true })
-      })
-      .finally(() => {
-        printContainer.remove()
-      })
+    handleReactToPrint(null, () => printContainer)
+    printContainer.remove()
   }
 
   return (
