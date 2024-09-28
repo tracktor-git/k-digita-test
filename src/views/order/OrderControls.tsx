@@ -3,6 +3,7 @@ import CIcon from '@coreui/icons-react'
 import { cilPrint, cilCloudDownload } from '@coreui/icons'
 import html2pdf from 'html2pdf.js'
 import printJS from 'print-js'
+import { useReactToPrint } from 'react-to-print'
 
 interface IOrderControlsProps {
   isDisabled: boolean
@@ -31,6 +32,22 @@ const html2pdfOptions = {
   jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
 }
 
+const preparePrintContainer = (
+  element: React.MutableRefObject<HTMLElement>,
+) => {
+  const printContainer = document.createElement('div')
+  printContainer.innerHTML = element.current.innerHTML
+  const signSec = printContainer.querySelector('.sign-section') as HTMLElement
+  if (signSec) signSec.style.display = 'block'
+
+  // Excluding these for print
+  const unwantedSelectors = 'button, input, textarea'
+  const unwantedItems = printContainer.querySelectorAll(unwantedSelectors)
+  unwantedItems.forEach((item) => item.remove())
+
+  return printContainer
+}
+
 const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
   const handleDownload = async () => {
     if (typeof printElement === 'string') {
@@ -43,15 +60,16 @@ const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
       return
     }
 
-    const printContainer = document.createElement('div')
-    printContainer.innerHTML = printElement.current.innerHTML
-    const signSec = printContainer.querySelector('.sign-section') as HTMLElement
-    if (signSec) signSec.style.display = 'block'
+    const printContainer = preparePrintContainer(printElement)
 
     await html2pdf().set(html2pdfOptions).from(printContainer).save()
     printContainer.remove()
-    signSec?.remove()
   }
+
+  const handleReactToPrint = useReactToPrint({
+    documentTitle: 'Print',
+    removeAfterPrint: true,
+  })
 
   const handlePrint = () => {
     if (typeof printElement === 'string') {
@@ -65,11 +83,12 @@ const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
       return
     }
 
-    const printContainer = document.createElement('div')
-    printContainer.innerHTML = printElement.current.innerHTML
-    const signSec = printContainer.querySelector('.sign-section') as HTMLElement
+    const printContainer = preparePrintContainer(printElement)
 
-    if (signSec) signSec.style.display = 'block'
+    // For Mozilla Firefox this works better
+    if (navigator.userAgent.includes('Firefox')) {
+      return handleReactToPrint(null, () => printContainer)
+    }
 
     html2pdf()
       .set(html2pdfOptions)
@@ -80,7 +99,6 @@ const OrderControls = ({ isDisabled, printElement }: IOrderControlsProps) => {
       })
       .finally(() => {
         printContainer.remove()
-        signSec?.remove()
       })
   }
 
