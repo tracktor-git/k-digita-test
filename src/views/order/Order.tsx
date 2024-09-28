@@ -1131,7 +1131,7 @@ const OrderDetail = (): JSX.Element => {
                 </CForm>
                 {/* TRACKTOR'S CODE STARTS HERE */}
                 <PrintDownloadControls
-                  isDisabled={false}
+                  isDisabled={loading}
                   printElement={cardBody}
                 />
                 {/* TRACKTOR'S CODE ENDS ENDS */}
@@ -1761,7 +1761,7 @@ const OrderDetail = (): JSX.Element => {
                   </CForm>
                   {/* TRACKTOR'S CODE STARTS HERE */}
                   <PrintDownloadControls
-                    isDisabled={false}
+                    isDisabled={loading}
                     printElement={documentRef}
                   />
                   {/* TRACKTOR'S CODE ENDS HERE */}
@@ -1995,7 +1995,7 @@ const OrderDetail = (): JSX.Element => {
                         />
                         {/* TRACKTOR'S CODE STARTS HERE */}
                         <PrintDownloadControls
-                          isDisabled={!Boolean(data.comments.length)}
+                          isDisabled={loading || !Boolean(data.comments.length)}
                           printElement={commentRef}
                         />
                         {/* TRACKTOR'S CODE ENDS HERE */}
