@@ -20,8 +20,6 @@ const controlsStyles: React.CSSProperties = {
 }
 
 const html2pdfOptions = {
-  margin: 3,
-  marginLeft: 10,
   filename: 'document.pdf',
   image: { type: 'jpeg', quality: 1 },
   html2canvas: {
@@ -37,6 +35,7 @@ const preparePrintContainer = (
 ) => {
   const printContainer = document.createElement('div')
   printContainer.innerHTML = element.current.innerHTML
+  printContainer.style.padding = '30px 20px'
   const signSec = printContainer.querySelector('.sign-section') as HTMLElement
   if (signSec) signSec.style.display = 'block'
 
