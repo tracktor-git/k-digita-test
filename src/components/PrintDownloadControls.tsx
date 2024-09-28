@@ -20,6 +20,7 @@ const controlsStyles: React.CSSProperties = {
 }
 
 const html2pdfOptions = {
+  margin: 10,
   filename: 'document.pdf',
   image: { type: 'jpeg', quality: 1 },
   html2canvas: {
